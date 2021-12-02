@@ -22,7 +22,9 @@ public class JavaDemo {
         //literals();
         //typeConversions();
         //strings();
-        loopContinue();
+        //loopContinue();
+
+        multidimensional();
     }
 
     /*
@@ -335,6 +337,32 @@ public class JavaDemo {
     public static void forEachArrays(int[] ints) {
         for (int i : ints) {
             System.out.println(i);
+        }
+    }
+
+    public static void multidimensional() {
+        int[][] matrix = {
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 8, 9}
+        };
+        for (int[] row: matrix) {
+            for (int e: row) {
+                System.out.print(e + " ");
+            }
+            System.out.println();
+        }
+
+
+        int rows = 2;
+        int columns = 2;
+        int[][] m = new int[rows][columns];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                System.out.print(m[i][j] + " ");
+            }
+            System.out.println();
         }
     }
 

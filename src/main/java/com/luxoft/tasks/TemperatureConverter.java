@@ -25,8 +25,21 @@ public class TemperatureConverter {
             String prompt = "Press C to convert from Fahrenheit to Celsius.\nPress F to convert from Celsius to Fahrenheit.\nYour choice: ";
 
             //TODO
+            String tempType = readInput(prompt);
+            String tempValue = readInput("Please enter the temperature value in " + tempType + ": ");
+            int t = parse(tempValue);
 
-
+            if (tempType.equalsIgnoreCase("F")) {
+                int c = (t - 32) * 5/9; //C = (F - 32) * 5/9
+                System.out.println("The temperature in Fahrenheit: " + t);
+                System.out.println("The temperature in Celsius: " + c);
+            } else {
+                if (tempType.equalsIgnoreCase("C")) {
+                    int f = (t * 9/5) + 32;//F = (C * 9/5) + 32
+                    System.out.println("The temperature in Fahrenheit: " + f);
+                    System.out.println("The temperature in Celsius: " + t);
+                }
+            }
 
         } catch (NumberFormatException e) {
             System.err.println("Not a number: " + e);

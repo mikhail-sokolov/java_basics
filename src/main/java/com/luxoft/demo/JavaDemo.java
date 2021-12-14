@@ -1,5 +1,7 @@
 package com.luxoft.demo; //defining a package
 
+import com.luxoft.demo.classes.PhoneNumber;
+
 import java.io.PrintStream;
 
 /**
@@ -364,6 +366,11 @@ public class JavaDemo {
             }
             System.out.println();
         }
+    }
+
+
+    public static void access() {
+        PhoneNumber phoneNumber = PhoneNumber.getPhoneNumber("111");
     }
 
 }

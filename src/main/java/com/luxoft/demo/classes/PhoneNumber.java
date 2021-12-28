@@ -1,15 +1,17 @@
 package com.luxoft.demo.classes;
 
+
 public class PhoneNumber {
     public static final PhoneNumber EMERGENCY = new PhoneNumber("911");
 
     //Fields
     private final String phoneNumber; //can not be changed later
 
-    private PhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    private PhoneNumber(String phoneNumberParam) {
+        this.phoneNumber = phoneNumberParam;
     }
 
+    //Methods
     public void makeCall() {
         System.out.println("Calling " + this.phoneNumber);
     }

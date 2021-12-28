@@ -10,8 +10,7 @@ public class AdCampaign {
     }
 
     public AdCampaign(Client client, String message) {
-        this.clients = new Client[] { client };
-        this.message = message;
+        this(new Client[] { client }, message);
     }
 
     public void execute() {
@@ -40,8 +39,16 @@ public class AdCampaign {
 
         AdCampaign adCampaign = new AdCampaign(clients, "Happy birthday!!!");
         AdCampaign anotherCampaign = new AdCampaign(clients, "Happy birthday!!!");
-        System.out.println(adCampaign == anotherCampaign);
+        objectEquality();
         //adCampaign.execute(); // execute(adCampaign)
+    }
+
+    public static void objectEquality() {
+        Client client = new Client(PhoneNumber.getPhoneNumber("555"));
+        String message = "Happy birthday!!!";
+        AdCampaign adCampaign = new AdCampaign(client, message);
+        AdCampaign anotherCampaign = new AdCampaign(client, message);
+        System.out.println(adCampaign == anotherCampaign);
     }
 
 

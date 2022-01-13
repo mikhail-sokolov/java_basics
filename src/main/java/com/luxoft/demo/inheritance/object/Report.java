@@ -1,6 +1,7 @@
 package com.luxoft.demo.inheritance.object;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -12,7 +13,13 @@ public class Report {
     private long id;
     private LocalDate reportDate;
     private int[] totals;
-    private String name;
+    private String name = "default";
+
+    public Report(long id, LocalDate reportDate, int[] totals) {
+        this.id = id;
+        this.reportDate = reportDate;
+        this.totals = totals;
+    }
 
     /**
      * Hash code is an integer derived from an object. Hash code is very important for hash tables.
@@ -56,9 +63,16 @@ public class Report {
     }
 
     public static void main(String[] args) {
-        Object report = new Report();
-        Object reports = new Report[10];
+        LocalDate now = LocalDate.now();
+        Object report = new Report(1L, now, new int[] {1, 2, 3});
+        Object r = report;
+        Object report2 = new Report(1L, now, new int[] {1, 2, 3});
+        System.out.println(report);
 
+        System.out.println(report == r);
+        System.out.println(report.equals(report2));
+
+        Object reports = new Report[10];
         Object i = 10; // implicit conversion to Integer class
         System.out.println(i.getClass());
     }

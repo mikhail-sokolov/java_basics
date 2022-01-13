@@ -6,6 +6,9 @@ package com.luxoft.tasks.classes;
  */
 public class Task {
     public static void main(String[] args) {
-
+        Pet[] pets = { new Cat("fluffy"), new Dog("nord") };
+        for (Pet pet: pets) {
+            pet.makeNoise();
+        }
     }
 }

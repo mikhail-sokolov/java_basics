@@ -21,6 +21,10 @@ public interface Shape extends Drawable {
     int perimeter();
     void setColor(Color color);
 
+    default void white() {
+        setColor(Color.WHITE);
+    }
+
     static Shape triangle(int a, int b, int c) {
         return new Shape() {
             @Override
@@ -43,5 +47,23 @@ public interface Shape extends Drawable {
 
             }
         };
+    }
+
+    class Point {
+        private final int x;
+        private final int y;
+
+        public Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
+        }
     }
 }

@@ -36,7 +36,8 @@ public class Company implements Comparable<Company>  {
         Company[] companies = {
             new Company("Google", 100_000),
             new Company("Amazon", 30_000),
-            new Company("Tesla", 50_000)
+            new Company("Tesla", 50_000),
+            new SubCompany("Sub", 1)
         };
 
         System.out.println(Arrays.toString(companies));

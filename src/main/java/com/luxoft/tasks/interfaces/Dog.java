@@ -1,8 +1,8 @@
 package com.luxoft.tasks.interfaces;
 
 public class Dog extends Pet {
-    public Dog(String name) {
-        super(name);
+    public Dog(String name, int size) {
+        super(name, size);
     }
 
     @Override

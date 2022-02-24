@@ -3,7 +3,6 @@ package com.luxoft.demo.collections;
 import com.luxoft.demo.enumeration.Color;
 import com.luxoft.demo.inheritance.Circle;
 import com.luxoft.demo.interfaces.Company;
-import com.luxoft.demo.interfaces.Shape;
 
 import java.util.*;
 
@@ -27,7 +26,8 @@ public class CollectionsDemo {
         //collection(new HashSet<>());
         //orderedSet();
         //enumSet();
-        hashSet();
+        //hashSet();
+        map();
     }
 
     /**
@@ -207,24 +207,62 @@ public class CollectionsDemo {
     }
 
     /**
-     * Generic collection of elements.
+     * Collection of key-value pairs where keys have no duplicates.
      */
     public static void map() {
-        Collection<Integer> ints = new ArrayList<>();
+        Map<String, Integer> words = new HashMap<>();
 
-        ints.add(1);
-        ints.addAll(Arrays.asList(2, 3));
+        words.put("list", 4);
+        words.put("set", 5);
+        words.forEach((word,  count) -> System.out.println(word + " " + count));
+        words.put("set", 7);
+        words.put("map", 1);
+        words.put("queue", 10);
+        words.put("stack", 0);
+        words.forEach((word,  count) -> System.out.println(word + " " + count));
         System.out.println("------------------------------------------");
         //Uses iterator API
-        for (Integer i: ints) {
-            System.out.println(i);
+        for (Map.Entry<String, Integer> entry: words.entrySet()) {
+            System.out.println(entry);
         }
-        System.out.println(ints.isEmpty());
+        System.out.println(words.isEmpty());
         System.out.println("------------------------------------------");
-        System.out.println(ints.size());
-        System.out.println(ints.contains(2));
-        ints.remove(2);
-        System.out.println(ints.contains(2));
-        System.out.println(ints.size());
+        System.out.println(words.size());
+        System.out.println(words.containsKey("list"));
+        System.out.println(words.get("list"));
+
+        Comparator<Map.Entry<String, Integer>> comparator = new Comparator<Map.Entry<String, Integer>>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                return Integer.compare(o1.getValue(), o2.getValue());
+            }
+        };
+        PriorityQueue<Map.Entry<String, Integer>> top = new PriorityQueue<>(comparator);
+        for (Map.Entry<String, Integer> entry: words.entrySet()) {
+            top.offer(entry);
+        }
+        System.out.println("The lowest: " + top.poll());
+    }
+
+    /**
+     * Map with keys represented by Enum values. EnumMap is more efficient implementation than HashMap with regard of
+     * storing key-value pairs with keys represented by Enum values.
+     */
+    public static void enumMap() {
+        Map<Color, Integer> colors = new EnumMap<>(Color.class);
+
+        colors.put(Color.RED, 4);
+        colors.put(Color.GREEN, 5);
+        colors.forEach((color,  count) -> System.out.println(color + " " + count));
+        System.out.println("------------------------------------------");
+        //Uses iterator API
+        for (Map.Entry<Color, Integer> entry: colors.entrySet()) {
+            System.out.println(entry);
+        }
+        System.out.println(colors.isEmpty());
+        System.out.println("------------------------------------------");
+        System.out.println(colors.size());
+        System.out.println(colors.containsKey(Color.GREEN));
+        System.out.println(colors.get(Color.GREEN));
     }
 }

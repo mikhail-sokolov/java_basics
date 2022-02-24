@@ -3,6 +3,8 @@ package com.luxoft.demo.exceptions;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
@@ -51,10 +53,10 @@ import java.util.Scanner;
 public class Err {
     public static void main(String[] args) throws IOException {
         //try-catch-finally
-        //tcf();
+        tcf();
 
-        StringSource stringSource = new FileBasedStringSource("src/main/java/com/Main.java");
-        System.out.println(stringSource.get());
+        //StringSource stringSource = new FileBasedStringSource("src/main/java/com/Main.java");
+        //System.out.println(stringSource.get());
 
 
         /*try {
@@ -76,6 +78,24 @@ public class Err {
             int r2 = computation(x, y);
             System.out.println(r2);
         }*/
+    }
+
+    /**
+     * Option 1
+     */
+    public void handleIt(int i) {
+        try {
+            riskyOps(i);
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Option 2
+     */
+    public void propagate(int i) throws SQLException, IOException {
+        riskyOps(i);
     }
 
     public static void riskyOps(int i) throws IOException, SQLException {
@@ -100,14 +120,29 @@ public class Err {
         return x / y;
     }
 
+    /**
+     * try with resource
+     */
     public static void tcf() throws IOException {
         try (Scanner scanner = new Scanner(Paths.get("src/main/java/com/Main.java"))) {
             String line = scanner.next();
             System.out.println(line);
-            riskyOps(line.length());
+            riskyOps(line.length() - 1);
             System.out.println("try");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    public String generateUrl(String query) {
+        return "https://goolge.com?q=" + Err.encodeUtf8(query);
+    }
+
+    public static String encodeUtf8(String string) {
+        try {
+            return URLEncoder.encode(string, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
         }
     }
 

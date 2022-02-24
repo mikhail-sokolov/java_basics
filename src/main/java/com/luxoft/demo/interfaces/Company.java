@@ -1,6 +1,7 @@
 package com.luxoft.demo.interfaces;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Comparable is one of the common interfaces that allows setting of an order between objects
@@ -12,6 +13,23 @@ public class Company implements Comparable<Company>  {
     public Company(String name, int numberOfEmployees) {
         this.name = name;
         this.numberOfEmployees = numberOfEmployees;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Company company = (Company) o;
+        return numberOfEmployees == company.numberOfEmployees && name.equals(company.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, numberOfEmployees);
     }
 
     @Override

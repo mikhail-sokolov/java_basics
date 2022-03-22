@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * Annotations provide data about program that is not part of the program.
  *
- * Common use cases^
+ * Common use cases
  * - information for the compiler (e.g. detecting errors)
  * - compile-time and deployment-time processing
  *   (e.g. annotation information can be used to generate code, XML or JSON files)

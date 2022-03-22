@@ -1,5 +1,7 @@
 package com.luxoft.demo.lambda;
 
+import com.luxoft.tasks.classes.Dog;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +42,15 @@ public class Lambda {
                 System.out.println("Click!!!");
             }
         });
+        Optional.of(1)
+            .map((Integer integer) -> {
+                return integer + 1;
+            })
+            .filter(integer -> integer < 0)
+            .map(Object::toString)
+            .map(Dog::new)
+            .ifPresent(System.out::println);
+
 
         mouse.onMouseClick(() -> System.out.println("Lambda!!!"));
         
@@ -65,10 +76,10 @@ public class Lambda {
 
     @FunctionalInterface
     interface MyOwnFunctionalInterface<A, B, C, D, E, F> {
-        F apply(A a, B b, C c, D d, E e, F f);
+        F apply(A a, B b, C c, D d, E e);
 
-        default F apply(A a, B b, C c, D d, E e) {
-            return apply(a, b, c, d, e, null);
+        default F apply(A a, B b, C c, D d) {
+            return apply(a, b, c, d, null);
         }
 
         static String staticMethod() {

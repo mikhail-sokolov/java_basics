@@ -11,4 +11,8 @@ public abstract class Pet {
     public void run() {
         System.out.println("Run");
     }
+    public String getName() {
+        return name;
+    }
+
 }

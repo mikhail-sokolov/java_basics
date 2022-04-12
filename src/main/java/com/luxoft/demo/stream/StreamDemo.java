@@ -2,6 +2,7 @@ package com.luxoft.demo.stream;
 
 
 import com.luxoft.tasks.classes.Cat;
+import com.luxoft.tasks.classes.Pet;
 
 import java.io.IOException;
 import java.util.*;
@@ -11,11 +12,13 @@ import java.util.stream.Stream;
 
 public class StreamDemo {
     public static void main(String[] args) {
-
+        errorHandling();
     }
 
     /**
      * Stream is a sequence of elements supporting sequential and parallel aggregate operations.
+     *
+     * Stream = Iterator + Operators
      *
      * Stream API provides operators for composing a stream pipeline.
      *
@@ -35,19 +38,25 @@ public class StreamDemo {
         //IntStream is a special stream type for handling stream of primitive int
         //There are special stream types for double and long primitive types
         IntStream intStream = new Random().ints(); //source
+        Stream<Integer> boxed = intStream.boxed(); //source
 
         List<Boolean> booleanList = new ArrayList<>();
         Stream<Boolean> booleanStream = booleanList.stream(); // collection as a stream source
 
         Cat[] cats = new Cat[] { new Cat("kitty"), new Cat("fluffy") };
         Stream<Cat> catStream = Arrays.stream(cats); // non-null array a stream source
+
+        Stream.of(1, 2, 3);
     }
 
     public static void operations1() {
-        Cat[] cats = new Cat[]{new Cat("kitty"), new Cat("fluffy"), new Cat("cat")};
+        Cat[] cats = new Cat[]{ new Cat("kitty"), new Cat("fluffy"), new Cat("cat") };
         Arrays.stream(cats)
-            .map(cat -> cat.getName()) // produces a new value by applying provided function to the elements of the stream
+            .peek(System.out::println)
+            .map(Pet::getName) // produces a new value by applying provided function to the elements of the stream
+            .peek(System.out::println)
             .filter(name -> name.length() > 3) // filters elements by applying a predicate: emits only those elements that yields true
+            .peek(System.out::println)
             .map(name -> name.toUpperCase())
             .forEach(name -> System.out.println(name)); //terminal operator (side-effect)
     }
@@ -64,7 +73,7 @@ public class StreamDemo {
     }
 
     public static void operations3() {
-        int sumOfFirstTenEvenNumbers = IntStream.range(1, 1000)
+        int sumOfFirstTenEvenNumbers = IntStream.range(1, 1001)
             .filter(x -> x % 2 == 0)
             .limit(10)
             .sum();
@@ -75,11 +84,12 @@ public class StreamDemo {
         Cat[] cats = new Cat[]{new Cat("kitty"), new Cat("fluffy"), new Cat("cat")};
         Optional<String> c = Arrays.stream(cats)
             .map(cat -> cat.getName())
-            .filter(name -> name.length() > 3)
+            .filter(name -> name.length() < 0)
             .map(name -> name.toUpperCase())
             .findFirst();
 
         c.ifPresent(cat -> System.out.println(cat));
+        System.out.println(c.isPresent());
     }
 
     public static Optional<Customer> getCustomer(long id) {
@@ -108,7 +118,6 @@ public class StreamDemo {
     public static void flatMap2() {
         Stream.of(1,2,3,4,5)
             .peek(x -> System.out.println("Peek " + x))
-            .map(x -> x + 1)
             .flatMap(x -> {
                 try {
                     return Stream.of(riskyOperation(x));
@@ -128,7 +137,7 @@ public class StreamDemo {
     public static void errorHandling() {
         //Termination errors
         System.out.println("----------------------Termination");
-        Stream.of(1,2,3,4,5)
+        /*Stream.of(1,2,3,4,5)
                 .peek(x -> System.out.println("Peek " + x))
                 .map(x -> x + 1)
                 .map(x -> {
@@ -140,7 +149,7 @@ public class StreamDemo {
                 })
                 .map(x -> "Value=" + x)
                 .forEach(x -> System.out.println("Success " + x));
-
+        */
 
 
 
@@ -196,7 +205,7 @@ public class StreamDemo {
             }
         }
 
-        Stream.of(1,2,3,4,5)
+        Map<Boolean, List<ErrorContext<Integer>>> result = Stream.of(1,2,3,4,5)
             .peek(x -> System.out.println("Peek " + x))
             .map(x -> x + 1)
             .map(x -> {
@@ -213,7 +222,9 @@ public class StreamDemo {
                     return new ErrorContext<>(x.getValue() * 10);
                 }
             })
-            .forEach(x -> System.out.println("Success " + x));
+            .collect(Collectors.groupingBy(ctx -> ctx.isError()));
+
+
     }
 
     static int riskyOperation(int x) throws Exception {
@@ -227,26 +238,51 @@ public class StreamDemo {
      * Calculate the average amount of orders made by customers which age is between 30 and 40 years
      */
     public static void problemCollections() {
+        int cnt = 0;
+        int sum = 0;
+        for (Customer customer: customerList()) {
+            if (customer.age >= 30 && customer.age <= 40) {
+                cnt++;
+                sum += customer.orders.size();
+            }
+        }
 
+        if (cnt != 0) {
+            int avg = sum / cnt;
+            System.out.println(avg);
+        }
     }
 
     public static void problemStream() {
-
+        customerList().stream()
+            .filter(customer -> customer.age >= 30 && customer.age <= 40)
+            .mapToInt(customer -> customer.orders.size())
+            .average()
+            .ifPresent(System.out::println);
     }
 
-    static List<Customer> generate() {
+    public static List<Customer> customerList() {
+        return customers().collect(Collectors.toList());
+    }
+
+    public static Stream<Customer> customers() {
         Random random = new Random();
+        String[] names = { "Liam", "Olivia", "Oliver", "Emma", "Mia", "James", "Alexander" };
         return random.ints()
             .filter(value -> value > 20 && value < 70)
             .boxed()
             .map(age -> {
-                Customer customer = new Customer(age, Integer.toString(age), age);
-                random.ints(random.nextInt(15))
-                    .forEach(value -> customer.makeOrder());
+                Customer customer = new Customer(
+                    Math.abs(random.nextInt()),
+                    names[random.nextInt(names.length - 1)] + " " + names[random.nextInt(names.length - 1)],
+                    age
+                );
+                random.ints(random.nextInt(5))
+                    .forEach(customer::makeOrder);
                 return customer;
             })
-            .limit(20)
-            .collect(Collectors.toList());
+            .limit(10);
+
     }
 
     public static class Customer {
@@ -259,10 +295,11 @@ public class StreamDemo {
             this.id = id;
             this.name = name;
             this.age = age;
+            this.orders = new ArrayList<>();
         }
 
-        public Order makeOrder() {
-            Order order = new Order(id);
+        public Order makeOrder(int value) {
+            Order order = new Order(value);
             orders.add(order);
             return order;
         }

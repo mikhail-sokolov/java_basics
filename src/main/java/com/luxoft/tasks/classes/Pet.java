@@ -15,4 +15,10 @@ public abstract class Pet {
         return name;
     }
 
+    @Override
+    public String toString() {
+        return "Pet{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

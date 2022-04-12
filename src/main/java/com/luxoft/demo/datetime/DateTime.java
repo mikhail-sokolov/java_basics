@@ -58,14 +58,29 @@ public class DateTime {
         Instant now = Instant.now();
         System.out.println(now);
         Instant legacy = new Date().toInstant();
+        Date old = new Date(legacy.toEpochMilli());
 
         LocalDate happyNewYear = LocalDate.of(2022,  1, 1);
         System.out.println(happyNewYear);
-        LocalDate oddDate = LocalDate.of(2022, 2, 30);
-        System.out.println(oddDate);
-
+        /*LocalDate oddDate = LocalDate.of(2022, 2, 30);
+        System.out.println(oddDate);*/
         LocalDate firstDay = LocalDate.ofYearDay(2022,  1);
         System.out.println(firstDay);
+
+        LocalTime startTime = LocalTime.of(19, 0);
+        LocalTime endTime = LocalTime.of(21, 0);
+        Duration duration = Duration.between(startTime, endTime);
+        System.out.println(duration.toHours());
+
+        System.out.println(startTime);
+        LocalTime newLocalTime = startTime.plus(Duration.ofMinutes(90));
+        System.out.println(startTime);
+        System.out.println(newLocalTime);
+
+        LocalDateTime localDateTime = LocalDateTime.now();
+        System.out.println(localDateTime);
+        ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.of("UTC"));
+        System.out.println(zonedDateTime);
     }
 
     public static void operations() {
@@ -110,6 +125,7 @@ public class DateTime {
      */
     public static void format() {
         LocalDate date = LocalDate.now();
+
         System.out.println(date.format(DateTimeFormatter.ISO_DATE));
         System.out.println(date.format(DateTimeFormatter.ISO_WEEK_DATE));
 

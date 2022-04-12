@@ -1,6 +1,7 @@
 package com.luxoft.demo.datetime;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -10,9 +11,9 @@ import java.util.Date;
  */
 public class Legacy {
     public static void main(String[] args) {
-        date();
+        //date();
         //calendar();
-        //format();
+        format();
     }
 
     /**
@@ -36,7 +37,7 @@ public class Legacy {
     public static void date() {
         Date now = new Date();
         System.out.println(now);
-        Date happyNewYear = new Date(2022, 0, 1);
+        Date happyNewYear = new Date(2022, Calendar.JANUARY, 1);
         System.out.println(happyNewYear);
         Date oddDate = new Date(2022, 1, 30);
         System.out.println(oddDate);
@@ -53,7 +54,7 @@ public class Legacy {
      * - JapaneseImperialCalendar
      * - GregorianCalendar
      *
-     * But you don't need to create them directly. Calendar.getInstance() returns appropriate calender based on your
+     * But you don't need to create them directly. Calendar.getInstance() returns appropriate calendar based on your
      * time zone and locale.
      *
      * Calendar provides methods for
@@ -126,6 +127,13 @@ public class Legacy {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("h:mm a");
         System.out.println(simpleDateFormat.format(now));
+
+        try {
+            Date date = simpleDateFormat.parse("8:35 AM");
+            System.out.println(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 }
 

@@ -97,7 +97,7 @@ public class WritingDemo {
         }
     }
 
-    private static void iteratorApi(Path file, XMLOutputFactory xmlOutputFactory) {
+    public static void iteratorApi(Path file, XMLOutputFactory xmlOutputFactory) {
         XMLEventFactory xmlEventFactory = XMLEventFactory.newFactory();
         try (
             OutputStream stream = Files.newOutputStream(file);
@@ -120,6 +120,10 @@ public class WritingDemo {
                     builder.add(xmlEventFactory.createStartElement("", "", "age"));
                     builder.add(xmlEventFactory.createCharacters(String.valueOf(customer.age)));
                     builder.add(xmlEventFactory.createEndElement("", "", "age"));
+
+                    builder.add(xmlEventFactory.createStartElement("", "", "registrationDate"));
+                    builder.add(xmlEventFactory.createCharacters(String.valueOf(customer.registrationDate)));
+                    builder.add(xmlEventFactory.createEndElement("", "", "registrationDate"));
 
                     builder.add(xmlEventFactory.createEndElement("", "", "client"));
 

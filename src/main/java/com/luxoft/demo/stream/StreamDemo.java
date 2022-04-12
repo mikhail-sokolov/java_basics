@@ -5,6 +5,7 @@ import com.luxoft.tasks.classes.Cat;
 import com.luxoft.tasks.classes.Pet;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -275,7 +276,8 @@ public class StreamDemo {
                 Customer customer = new Customer(
                     Math.abs(random.nextInt()),
                     names[random.nextInt(names.length - 1)] + " " + names[random.nextInt(names.length - 1)],
-                    age
+                    age,
+                    registrationDate(random)
                 );
                 random.ints(random.nextInt(5))
                     .forEach(customer::makeOrder);
@@ -285,16 +287,25 @@ public class StreamDemo {
 
     }
 
+    private static LocalDate registrationDate(Random random) {
+        int diff = random.nextInt(5);
+        int month = random.nextInt(12) + 1;
+        int day = random.nextInt(28) + 1;
+        return LocalDate.of(2022 - diff, month, day);
+    }
+
     public static class Customer {
         public long id;
         public String name;
         public int age;
         public List<Order> orders;
+        public LocalDate registrationDate;
 
-        public Customer(long id, String name, int age) {
+        public Customer(long id, String name, int age, LocalDate registrationDate) {
             this.id = id;
             this.name = name;
             this.age = age;
+            this.registrationDate = registrationDate;
             this.orders = new ArrayList<>();
         }
 

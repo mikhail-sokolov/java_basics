@@ -11,9 +11,9 @@ import java.util.List;
 public class InputOutput {
 
     public static void main(String[] args) throws IOException {
-        basicIo();
+        //basicIo();
         //charBasedIo();
-        //newIo();
+        newIo();
     }
 
     private static void basicIo() throws IOException {

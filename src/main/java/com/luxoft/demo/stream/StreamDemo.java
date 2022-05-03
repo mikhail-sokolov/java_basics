@@ -314,6 +314,17 @@ public class StreamDemo {
             orders.add(order);
             return order;
         }
+
+        @Override
+        public String toString() {
+            return "Customer{" +
+                    "id=" + id +
+                    ", name='" + name + '\'' +
+                    ", age=" + age +
+                    ", orders=" + orders +
+                    ", registrationDate=" + registrationDate +
+                    '}';
+        }
     }
 
     public static class Order {

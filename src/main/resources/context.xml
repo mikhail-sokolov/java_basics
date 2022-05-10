@@ -4,12 +4,20 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="parser" class="com.luxoft.spring.XmlFeedParser">
-        <constructor-arg index="1" value="feed.xml"/>
+    <bean id="parser" class="com.luxoft.spring.XmlFeedParser" scope="singleton">
+        <constructor-arg index="0" value="feed.xml"/>
     </bean>
 
-    <bean id="processor" class="com.luxoft.spring.XmlFeedProcessor">
-        <constructor-arg index="1" ref="parser"/>
+    <!--<bean id="parser1" class="com.luxoft.spring.XmlFeedParser">
+        <constructor-arg index="0" value="feed.xml"/>
+    </bean>-->
+
+    <bean id="processor" class="com.luxoft.spring.XmlFeedProcessor" autowire="byName">
+        <!--<constructor-arg index="0" ref="parser"/>-->
+    </bean>
+
+    <bean id="processor1" class="com.luxoft.spring.XmlFeedProcessor" autowire="byName">
+        <!--<constructor-arg index="0" ref="parser"/>-->
     </bean>
 
 </beans>

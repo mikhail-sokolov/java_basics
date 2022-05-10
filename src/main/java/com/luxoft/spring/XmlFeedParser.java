@@ -1,4 +1,4 @@
-package com.luxoft.tasks;
+package com.luxoft.spring;
 
 import com.luxoft.demo.stream.StreamDemo;
 import com.luxoft.demo.xml.stax.WritingDemo;
@@ -18,38 +18,17 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-/**
- * Read 'feed.xml' feed file with clients data and print all clients grouped by month of registration.
- *
- * Call 'generate' method for 'feed.xml' generation
- *
- * Hint: use xml reading like in com.luxoft.demo.xml
- */
-public class XmlFeedProcessing {
-    public static void main(String[] args) throws IOException, XMLStreamException {
-        //generate("feed.xml");
-        solution("feed.xml");
+
+public class XmlFeedParser {
+    private String feedFile;
+
+    public XmlFeedParser(String feedFile) {
+        this.feedFile = feedFile;
     }
 
-    public static void solution(String filename) throws IOException, XMLStreamException {
-        parse(filename)
-            .collect(
-                Collectors.groupingBy(
-                    customer -> customer.registrationDate.getMonth(),
-                    TreeMap::new,
-                    Collectors.toList()
-                )
-            )
-            .forEach((month, customers) -> {
-                System.out.println(month);
-                customers.forEach(System.out::println);
-            });
-    }
-
-    private static Stream<StreamDemo.Customer> parse(String feedFile) throws XMLStreamException, IOException {
+    public Stream<StreamDemo.Customer> parse() throws XMLStreamException, IOException {
         XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
         Stack stack = new Stack();
         XMLEventReader xmlEventReader = xmlInputFactory.createXMLEventReader(Files.newInputStream(Paths.get(feedFile)));

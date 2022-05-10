@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="parser" class="com.luxoft.spring.XmlFeedParser">
+        <constructor-arg index="1" value="feed.xml"/>
+    </bean>
+
+    <bean id="processor" class="com.luxoft.spring.XmlFeedProcessor">
+        <constructor-arg index="1" ref="parser"/>
+    </bean>
+
+</beans>

@@ -20,4 +20,17 @@
         <!--<constructor-arg index="0" ref="parser"/>-->
     </bean>
 
+
+    <bean id="dataSource" class="org.postgresql.ds.PGSimpleDataSource">
+        <property name="serverName" value="localhost"/>
+        <property name="portNumber" value="5432"/>
+        <property name="databaseName" value="pagila"/>
+        <property name="user" value="postgres"/>
+        <property name="password" value="pg_secret"/>
+    </bean>
+
+    <bean id="actors" class="com.luxoft.demo.jdbc.ActorsRepository">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+
 </beans>

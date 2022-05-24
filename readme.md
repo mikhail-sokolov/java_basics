@@ -2,4 +2,7 @@
 
 Local and remote change 
 
-Another merge conflict
+New line
+
+Another line
+

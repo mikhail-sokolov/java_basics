@@ -18,7 +18,11 @@ public class ActorsRepository {
     }
 
     public String getActorName(int id) {
-        Actor actor = jdbc.queryForObject("select * from actor where actor_id = :id", Collections.singletonMap("id", 10), new ActorMapper());
+        Actor actor = jdbc.queryForObject(
+            "select * from actor where actor_id = :id",
+            Collections.singletonMap("id", id),
+            new ActorMapper()
+        );
         return actor.getName();
     }
 

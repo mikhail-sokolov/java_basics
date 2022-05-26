@@ -3,10 +3,8 @@ package com.luxoft.demo.jdbc;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.Objects;
 
 public class Main {
     public static void main(String[] args) {
@@ -25,7 +23,10 @@ public class Main {
             ps.setInt(1, 10);
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
-                System.out.println(resultSet.getString(2) + " " + resultSet.getString(3));
+                String resultString = resultSet.getInt(1)
+                        + " " + resultSet.getString(2)
+                        + " " + resultSet.getString(3);
+                System.out.println(resultString);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
